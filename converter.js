@@ -13,7 +13,13 @@ const converter = pathtofile => {
 
 	const formattedWorkbook = JSONToMedicaFormat(invoice);
 
-	XLSX.writeFile(formattedWorkbook, `./public/output/${(Math.random() * 10000 + 1).toFixed(4)}__${invoice.number}.csv`);
+	const date = new Date();
+
+	const dateToAddInFileName = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+
+	try {
+		XLSX.writeFile(formattedWorkbook, `./public/output/${(Math.random() * 10000 + 1).toFixed(4)}__${invoice.number}__${dateToAddInFileName}.csv`);
+	} catch (error) {}
 
 	fs.promises.unlink(pathtofile).catch(error => {});
 };

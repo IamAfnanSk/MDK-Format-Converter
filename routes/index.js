@@ -35,10 +35,23 @@ router.get('/', (netReq, netRes) => {
 			}
 		});
 	} else {
-		fs.promises.readdir('./public/output').then(files => {
+		const outputPath = path.join(__dirname, '../public/output');
+
+		fs.promises.readdir(outputPath).then(files => {
+			const sortedFiles = files
+				.map(file => {
+					return {
+						name: file,
+						time: fs.statSync(outputPath + '/' + file).mtime,
+					};
+				})
+				.sort((a, b) => b.time - a.time)
+				.map(file => file.name);
+
 			netRes.render('index.hbs', {
 				show: false,
-				files,
+				files: sortedFiles,
+				showFileForm: true,
 			});
 		});
 	}

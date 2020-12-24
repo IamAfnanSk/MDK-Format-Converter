@@ -1,5 +1,5 @@
 node_modules
-output/*
+public/output/*
 temp/*
 .env
 token.json
