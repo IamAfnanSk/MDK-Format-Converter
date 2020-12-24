@@ -16,15 +16,15 @@ const validateToken = () => {
 				oAuth2Client.setCredentials(token);
 
 				return new Promise((resolve, reject) => {
-					oAuth2Client.getAccessToken((error, freshToken) => {
+					oAuth2Client.getAccessToken((error, freshToken, response) => {
 						error ? reject(error) : '';
 
 						const respToForward = {};
 
-						token.access_token === freshToken ? (respToForward.wasValid = true) : (respToForward.wasValid = false);
-
-						token.access_token = freshToken;
-						oAuth2Client.setCredentials(token);
+						if (freshToken !== token.access_token && response !== undefined) {
+							token = response.data;
+							oAuth2Client.setCredentials(token);
+						}
 
 						respToForward.oAuth2Client = oAuth2Client;
 						respToForward.token = token;
@@ -34,16 +34,12 @@ const validateToken = () => {
 				});
 			})
 			.then(tokenAndoAuthClient => {
-				if (!tokenAndoAuthClient.wasValid) {
-					fs.promises
-						.writeFile(TOKEN_PATH, JSON.stringify(tokenAndoAuthClient.token))
-						.then(() => {
-							resolve(tokenAndoAuthClient);
-						})
-						.catch(error => reject(error));
-				} else {
-					resolve(tokenAndoAuthClient);
-				}
+				fs.promises
+					.writeFile(TOKEN_PATH, JSON.stringify(tokenAndoAuthClient.token))
+					.then(() => {
+						resolve(tokenAndoAuthClient);
+					})
+					.catch(error => reject(error));
 			})
 			.catch(error => reject(error));
 	});

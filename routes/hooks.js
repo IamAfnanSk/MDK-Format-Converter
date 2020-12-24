@@ -77,7 +77,6 @@ router.get('/refreshtoken', (netReq, netRes) => {
 	validateToken()
 		.then(tokenAndoAuthClient =>
 			netRes.status(200).json({
-				wasValid: tokenAndoAuthClient.wasValid,
 				message: 'Token validated',
 				error: null,
 			})
