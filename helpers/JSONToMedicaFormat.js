@@ -1,4 +1,3 @@
-const e = require('express');
 const XLSX = require('xlsx');
 const medicaFormat = require('../utils/medicaFormat');
 

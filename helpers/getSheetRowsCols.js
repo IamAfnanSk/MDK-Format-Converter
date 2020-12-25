@@ -4,12 +4,12 @@ const getSheetRowsCols = sheet => {
 	const refSplit = ref.split(':');
 
 	const extractor = (extractFrom, isString) => {
-		const res = extractFrom
+		const result = extractFrom
 			.split('')
 			.filter(v => (isString ? isNaN(parseInt(v)) : !isNaN(parseInt(v))))
 			.join('');
 
-		return isString ? res : parseInt(res);
+		return isString ? result : parseInt(result);
 	};
 
 	const startAlp = extractor(refSplit[0], true);

@@ -60,12 +60,15 @@ router.post('/newgmail', (netReq, netRes) => {
 			.then(attachments => {
 				attachments.forEach(attachment => {
 					const pathToStore = path.join(__dirname, `../temp/${Math.random() * 100 + 1}.csv`);
+
+					if (!fs.existsSync(pathToStore)) {
+						fs.mkdirSync(pathToStore);
+					}
+
 					fs.promises.writeFile(pathToStore, attachment.data.data, 'base64').then(() => converter(pathToStore));
 				});
 			})
-			.catch(error => {
-				console.log(error);
-			});
+			.catch(error => {});
 	}
 
 	netRes.status(200).json({
@@ -77,6 +80,7 @@ router.get('/refreshtoken', (netReq, netRes) => {
 	validateToken()
 		.then(tokenAndoAuthClient =>
 			netRes.status(200).json({
+				wasValid: tokenAndoAuthClient.wasValid,
 				message: 'Token validated',
 				error: null,
 			})
@@ -106,12 +110,14 @@ router.get('/rewatch', (netReq, netRes) => {
 			watchResponse.data.error = null;
 			netRes.status(200).json(watchResponse.data);
 		})
-		.catch(error =>
+		.catch(error => {
+			console.log(error);
+
 			netRes.status(200).json({
 				message: 'Something is wrong with token, make a new please.',
 				error: 'token-error',
-			})
-		);
+			});
+		});
 });
 
 module.exports = router;

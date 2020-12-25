@@ -37,23 +37,30 @@ router.get('/', (netReq, netRes) => {
 	} else {
 		const outputPath = path.join(__dirname, '../public/output');
 
-		fs.promises.readdir(outputPath).then(files => {
-			const sortedFiles = files
-				.map(file => {
-					return {
-						name: file,
-						time: fs.statSync(outputPath + '/' + file).mtime,
-					};
-				})
-				.sort((a, b) => b.time - a.time)
-				.map(file => file.name);
+		if (!fs.existsSync(outputPath)) {
+			fs.mkdirSync(outputPath);
+		}
 
-			netRes.render('index.hbs', {
-				show: false,
-				files: sortedFiles,
-				showFileForm: true,
-			});
-		});
+		fs.promises
+			.readdir(outputPath)
+			.then(files => {
+				const sortedFiles = files
+					.map(file => {
+						return {
+							name: file,
+							time: fs.statSync(outputPath + '/' + file).mtime,
+						};
+					})
+					.sort((a, b) => b.time - a.time)
+					.map(file => file.name);
+
+				netRes.render('index.hbs', {
+					show: true,
+					files: sortedFiles,
+					showFileForm: true,
+				});
+			})
+			.catch(error => {});
 	}
 });
 
