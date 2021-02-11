@@ -1,0 +1,7 @@
+node_modules
+public/output/*
+temp/*
+.env
+token.json
+expiredToken.json
+package-lock.json
