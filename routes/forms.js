@@ -21,10 +21,20 @@ router.post('/rfrshtoken', (netReq, netRes) => {
 });
 
 router.post('/convertThisFile', multer({ dest: path.join(__dirname, '../temp/') }).array('file'), (netReq, netRes) => {
-	const useableFiles = netReq.files.filter(file => file.mimetype === 'application/vnd.ms-excel');
-	const unUseableFiles = netReq.files.filter(file => file.mimetype !== 'application/vnd.ms-excel').map(file => file.originalname);
+	const files = netReq.files;
 
-	if (useableFiles.length !== netReq.files.length) {
+	files.forEach(file => {
+		const fileNameArray = file.originalname.split('.');
+		const fileExtension = fileNameArray[fileNameArray.length - 1].toLowerCase();
+		const isCSV = fileExtension === 'csv';
+
+		file.isCSV = isCSV;
+	});
+
+	const useableFiles = files.filter(file => file.isCSV);
+	const unUseableFiles = files.filter(file => !file.isCSV).map(file => file.originalname);
+
+	if (useableFiles.length !== files.length) {
 		netRes.render('index.hbs', {
 			msg: 'These files were not csv. Other files were sent for conversion, if they were in correct format of M.D.K they will be converted. Refresh to see new converted files',
 			msgColor: '#0fc790',
