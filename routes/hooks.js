@@ -10,6 +10,10 @@ const converter = require('../converter');
 const validateToken = require('../helpers/validateToken');
 
 router.post('/newgmail', (netReq, netRes) => {
+	netRes.status(200).json({
+		acknowledged: true,
+	});
+
 	const gmail = google.gmail({ version: 'v1' });
 	let mailId;
 
@@ -66,10 +70,6 @@ router.post('/newgmail', (netReq, netRes) => {
 			});
 		})
 		.catch(error => {});
-
-	netRes.status(200).json({
-		acknowledged: true,
-	});
 });
 
 router.get('/refreshtoken', (netReq, netRes) => {
