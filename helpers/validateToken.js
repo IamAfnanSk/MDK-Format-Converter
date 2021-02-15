@@ -20,13 +20,12 @@ const validateToken = () => {
 
 				return oAuth2Client.getAccessToken();
 			})
-			.then(response => {
+			.then(async response => {
 				const wasValid = response.token === token.access_token;
 
 				if (!wasValid) {
 					if (response.res) {
 						if (!response.res.data.refresh_token) {
-							console.log('I saved error');
 							response.res.data.refresh_token = token.refresh_token;
 						}
 
@@ -43,14 +42,18 @@ const validateToken = () => {
 					wasValid,
 				};
 
-				const dataToWriteToFile = JSON.stringify(tokenAndOAuthClient.token);
+				if (!wasValid) {
+					const dataToWriteToFile = JSON.stringify(tokenAndOAuthClient.token);
 
-				return fs.promises
-					.writeFile(TOKEN_PATH, dataToWriteToFile)
-					.then(() => {
+					try {
+						await fs.promises.writeFile(TOKEN_PATH, dataToWriteToFile);
 						resolve(tokenAndOAuthClient);
-					})
-					.catch(error => reject(error));
+					} catch (error) {
+						reject(error);
+					}
+				} else {
+					resolve(tokenAndOAuthClient);
+				}
 			})
 			.catch(error => reject(error));
 	});
