@@ -20,72 +20,138 @@ const JSONToMedicaFormat = invoice => {
 
 			let cellData;
 
-			if (columnHeader === 'vendor') {
-				cellData = invoice.vendor;
-			} else if (columnHeader === 'cucode') {
-				cellData = invoice.customerCode;
-			} else if (columnHeader === 'customer') {
-				cellData = invoice.customer;
-			} else if (columnHeader === 'area') {
-				cellData = 'MUMBRA';
-			} else if (columnHeader === 'city') {
-				cellData = 'THANE';
-			} else if (columnHeader === 'pincode') {
-				cellData = 400612;
-			} else if (columnHeader === 'invno') {
-				cellData = invoice.number;
-			} else if (columnHeader === 'invdate') {
-				cellData = invoice.date;
-			} else if (columnHeader === 'invamt') {
-				cellData = invoice.amount;
-			} else if (columnHeader === 'manufacturer') {
-				cellData = product.manufacture;
-			} else if (columnHeader === 'prcode') {
-				cellData = product.code;
-			} else if (columnHeader === 'productdesc') {
-				cellData = product.name;
-			} else if (columnHeader === 'ppack') {
-				cellData = product.pack;
-			} else if (columnHeader === 'batchno') {
-				cellData = product.batch;
-			} else if (columnHeader === 'expdate') {
-				cellData = product.exp;
-			} else if (columnHeader === 'qty') {
-				cellData = product.qty;
-			} else if (columnHeader === 'free') {
-				cellData = product.free;
-			} else if (columnHeader === 'rate') {
-				cellData = product.rate;
-			} else if (columnHeader === 'grsamt') {
-				cellData = productGrsAmt;
-			} else if (columnHeader === 'ptr') {
-				cellData = product.rate;
-			} else if (columnHeader === 'mrp') {
-				cellData = product.MRP;
-			} else if (columnHeader === 'cdper') {
-				cellData = product.CD;
-			} else if (columnHeader === 'cstper') {
-				cellData = product.cGST;
-			} else if (columnHeader === 'vatper') {
-				cellData = product.cGST;
-			} else if (columnHeader === 'inetamt') {
-				cellData = productNetAmt;
-			} else if (columnHeader === 'vgstin') {
-				cellData = invoice.vendorGSTIN;
-			} else if (columnHeader === 'cgstin') {
-				cellData = invoice.customerGSTIN;
-			} else if (columnHeader === 'hsncode') {
-				cellData = product.HSN;
-			} else if (columnHeader === 'cgstper') {
-				cellData = product.cGST;
-			} else if (columnHeader === 'cgstamt') {
-				cellData = productcGSTAmt;
-			} else if (columnHeader === 'sgstper') {
-				cellData = product.cGST;
-			} else if (columnHeader === 'sgstamt') {
-				cellData = productsGSTAmt;
-			} else if (columnHeader === 'pitemname') {
-				cellData = product.name;
+			switch (columnHeader) {
+				case 'vendor':
+					cellData = invoice.vendor;
+					break;
+
+				case 'cucode':
+					cellData = invoice.customerCode;
+					break;
+
+				case 'customer':
+					cellData = invoice.customer;
+					break;
+
+				case 'area':
+					cellData = 'MUMBRA';
+					break;
+
+				case 'city':
+					cellData = 'THANE';
+					break;
+
+				case 'pincode':
+					cellData = 400612;
+					break;
+
+				case 'invno':
+					cellData = invoice.number;
+					break;
+
+				case 'invdate':
+					cellData = invoice.date;
+					break;
+
+				case 'invamt':
+					cellData = invoice.amount;
+					break;
+
+				case 'manufacturer':
+					cellData = product.manufacture;
+					break;
+
+				case 'prcode':
+					cellData = product.code;
+					break;
+
+				case 'productdesc':
+					cellData = product.name;
+					break;
+
+				case 'ppack':
+					cellData = product.pack;
+					break;
+
+				case 'batchno':
+					cellData = product.batch;
+					break;
+
+				case 'expdate':
+					cellData = product.exp;
+					break;
+
+				case 'qty':
+					cellData = product.qty;
+					break;
+
+				case 'free':
+					cellData = product.free;
+					break;
+
+				case 'rate':
+					cellData = product.rate;
+					break;
+
+				case 'grsamt':
+					cellData = productGrsAmt;
+					break;
+
+				case 'ptr':
+					cellData = product.rate;
+					break;
+
+				case 'mrp':
+					cellData = product.MRP;
+					break;
+
+				case 'cdper':
+					cellData = product.CD;
+					break;
+
+				case 'cstper':
+					cellData = product.cGST;
+					break;
+
+				case 'vatper':
+					cellData = product.cGST;
+					break;
+
+				case 'inetamt':
+					cellData = productNetAmt;
+					break;
+
+				case 'vgstin':
+					cellData = invoice.vendorGSTIN;
+					break;
+
+				case 'cgstin':
+					cellData = invoice.customerGSTIN;
+					break;
+
+				case 'hsncode':
+					cellData = product.HSN;
+					break;
+
+				case 'cgstper':
+					cellData = product.cGST;
+					break;
+
+				case 'cgstamt':
+					cellData = productcGSTAmt;
+					break;
+
+				case 'sgstper':
+					cellData = product.cGST;
+					break;
+
+				case 'sgstamt':
+					cellData = productsGSTAmt;
+					break;
+
+				case 'pitemname':
+					cellData = product.name;
+					break;
 			}
 
 			rowData.push(cellData);
