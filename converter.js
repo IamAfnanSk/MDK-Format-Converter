@@ -4,7 +4,7 @@ const XLSX = require("xlsx");
 const JSONToMedicaFormat = require("./helpers/JSONToMedicaFormat");
 const pasreToJSON = require("./helpers/pasreToJSON");
 
-const converter = (pathtofile, originalFileName = "unNamedFile") => {
+const converter = (pathtofile) => {
   const workbookToFormat = XLSX.readFile(pathtofile);
 
   const sheetToFormat = workbookToFormat.Sheets[workbookToFormat.SheetNames[0]];
@@ -27,7 +27,7 @@ const converter = (pathtofile, originalFileName = "unNamedFile") => {
       `./public/output/valid__${dateToAddInFileName}__${randomFileName}__${invoice.number}.csv`
     );
 
-    fs.promises.unlink(pathtofile).catch((error) => {});
+    fs.promises.unlink(pathtofile).catch(() => {});
   }
 };
 
